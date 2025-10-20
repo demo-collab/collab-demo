@@ -1,246 +1,1225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Legacare Operations Hub — No‑JS Tabs</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legacare Operations Hub - ClickUp Setup</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap');
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <style>
-    /* Base (copied/adapted to match your original look) */
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #fdf6f0 0%, #f9e6e6 50%, #fef5f1 100%);
-      color: #4a4a4a;
-    }
-    .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fdf6f0 0%, #f9e6e6 50%, #fef5f1 100%);
+            overflow-x: hidden;
+            color: #4a4a4a;
+        }
 
-    header { text-align: center; color: #8b6f6f; margin-bottom: 60px; animation: fadeInDown 0.8s ease; }
-    header h1 {
-      font-family: 'Playfair Display', serif; font-size: 3.5em; margin-bottom: 15px;
-      color: #a67c7c; font-weight: 700; letter-spacing: -1px;
-    }
-    header p { font-size: 1.3em; color: #8b6f6f; font-weight: 300; }
-    .brand-accent { color: #d4a5a5; }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
 
-    .legacare-banner {
-      background: linear-gradient(135deg, #d4a5a5 0%, #b88e8e 100%);
-      color: white; text-align: center; padding: 15px; border-radius: 15px;
-      margin-bottom: 40px; box-shadow: 0 5px 20px rgba(166, 124, 124, 0.3);
-    }
-    .legacare-banner h2 { font-family: 'Playfair Display', serif; margin-bottom: 5px; font-weight: 700; }
-    .legacare-banner p { font-size: 0.95em; opacity: 0.95; color: white; }
+        header {
+            text-align: center;
+            color: #8b6f6f;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease;
+        }
 
-    /* ---- No-JS Tabs (radio + labels) ---- */
-    .tabs {
-      display: grid;
-      justify-items: center;
-      row-gap: 24px;
-      margin-bottom: 10px;
-    }
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            color: #a67c7c;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
 
-    /* Hide the radios */
-    .tabs input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+        header p {
+            font-size: 1.3em;
+            color: #8b6f6f;
+            font-weight: 300;
+        }
 
-    /* Tab labels styled like your buttons */
-    .tab-labels {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;
-    }
-    .tab-labels label {
-      background: #fff; color: #8b6f6f; border: 2px solid #e8d4d4; padding: 12px 25px;
-      border-radius: 30px; cursor: pointer; font-size: 1em; transition: all .3s ease;
-      font-weight: 500; box-shadow: 0 2px 10px rgba(166,124,124,.1);
-      user-select: none;
-    }
-    .tab-labels label:hover {
-      background: #fef5f1; border-color: #d4a5a5; transform: translateY(-2px);
-      box-shadow: 0 5px 20px rgba(166,124,124,.2);
-    }
+        .brand-accent {
+            color: #d4a5a5;
+        }
 
-    /* Active state for the selected tab label */
-    #tab-overview:checked ~ .tab-labels label[for="tab-overview"],
-    #tab-departments:checked ~ .tab-labels label[for="tab-departments"],
-    #tab-automation:checked ~ .tab-labels label[for="tab-automation"],
-    #tab-workflows:checked ~ .tab-labels label[for="tab-workflows"],
-    #tab-dashboards:checked ~ .tab-labels label[for="tab-dashboards"],
-    #tab-setup:checked ~ .tab-labels label[for="tab-setup"] {
-      background: linear-gradient(135deg, #d4a5a5 0%, #b88e8e 100%);
-      color: #fff; border-color: #d4a5a5;
-    }
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
 
-    /* Panels container */
-    .tab-panels { width: 100%; }
-    .tab-panel {
-      display: none;
-      animation: fadeIn .5s ease;
-    }
+        .tab-btn {
+            background: white;
+            color: #8b6f6f;
+            border: 2px solid #e8d4d4;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 2px 10px rgba(166, 124, 124, 0.1);
+        }
 
-    /* Show the panel that matches the checked radio */
-    #tab-overview:checked ~ .tab-panels [data-tab="overview"],
-    #tab-departments:checked ~ .tab-panels [data-tab="departments"],
-    #tab-automation:checked ~ .tab-panels [data-tab="automation"],
-    #tab-workflows:checked ~ .tab-panels [data-tab="workflows"],
-    #tab-dashboards:checked ~ .tab-panels [data-tab="dashboards"],
-    #tab-setup:checked ~ .tab-panels [data-tab="setup"] {
-      display: block;
-    }
+        .tab-btn:hover {
+            background: #fef5f1;
+            border-color: #d4a5a5;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(166, 124, 124, 0.2);
+        }
 
-    /* Cards & common blocks (matching your original) */
-    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-bottom: 40px; }
-    .card {
-      background: white; border-radius: 20px; padding: 30px;
-      box-shadow: 0 10px 30px rgba(166,124,124,.12);
-      transition: all .3s ease; cursor: pointer; border: 1px solid #f5e8e8;
-    }
-    .card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(166,124,124,.18); border-color: #e8d4d4; }
-    .card h3 { color: #8b6f6f; font-size: 1.5em; margin-bottom: 15px; font-family: 'Playfair Display', serif; font-weight: 600; }
-    .card p { color: #6b5555; line-height: 1.6; margin-bottom: 15px; }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #d4a5a5 0%, #b88e8e 100%);
+            color: white;
+            border-color: #d4a5a5;
+        }
 
-    .stats-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
-    .stat-card { background: white; border-radius: 20px; padding: 25px; text-align: center; box-shadow: 0 5px 20px rgba(166,124,124,.1); border: 1px solid #f5e8e8; }
-    .stat-number {
-      font-size: 2.5em; font-weight: bold;
-      background: linear-gradient(135deg, #d4a5a5 0%, #b88e8e 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      margin-bottom: 10px; font-family: 'Playfair Display', serif;
-    }
-    .stat-label { color: #8b6f6f; font-size: .9em; }
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
 
-    .action-btn {
-      background: linear-gradient(135deg, #d4a5a5 0%, #b88e8e 100%);
-      color: #fff; border: 0; padding: 12px 30px; border-radius: 30px; cursor: pointer;
-      font-size: 1em; transition: all .3s ease; margin-top: 15px; font-weight: 500;
-      box-shadow: 0 4px 15px rgba(166,124,124,.3);
-    }
-    .action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(166,124,124,.4); }
+        .content-section.active {
+            display: block;
+        }
 
-    /* Animations */
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px);} to { opacity:1; transform: translateY(0);} }
-    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px);} to { opacity:1; transform: translateY(0);} }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
 
-    @media (max-width: 768px) {
-      header h1 { font-size: 2em; }
-      .dashboard-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(166, 124, 124, 0.12);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #f5e8e8;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(166, 124, 124, 0.18);
+            border-color: #e8d4d4;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .icon-rose { background: linear-gradient(135deg, #d4a5a5 0%, #b88e8e 100%); color: white; }
+        .icon-cream { background: linear-gradient(135deg, #f5e8e8 0%, #e8d4d4 100%); color: #8b6f6f; }
+        .icon-peach { background: linear-gradient(135deg, #ffd5cd 0%, #ffb8a8 100%); color: white; }
+        .icon-lavender { background: linear-gradient(135deg, #ddc4d4 0%, #c9a8be 100%); color: white; }
+        .icon-sage { background: linear-gradient(135deg, #c4d4c9 0%, #a8bead 100%); color: white; }
+        .icon-blush { background: linear-gradient(135deg, #f5d4d8 0%, #e8b8be 100%); color: white; }
+
+        .card h3 {
+            color: #8b6f6f;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: #6b5555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .task-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .task-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f5e8e8;
+            color: #6b5555;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .task-list li:last-child {
+            border-bottom: none;
+        }
+
+        .priority-badge {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .priority-high { background: #ffd5cd; color: #c55246; }
+        .priority-medium { background: #ffe8d4; color: #c58746; }
+        .priority-low { background: #d4e8d4; color: #5c8c5c; }
+
+        .workflow-timeline {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid #f5e8e8;
+            box-shadow: 0 5px 20px rgba(166, 124, 124, 0.08);
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d4a5a5 0%, #b88e8e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+            box-shadow: 0 3px 10px rgba(166, 124, 124, 0.3);
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding-bottom: 30px;
+            border-left: 2px dashed #e8d4d4;
+            margin-left: 20px;
+            padding-left: 20px;
+        }
+
+        .timeline-item:last-child .timeline-content {
+            border-left: none;
+        }
+
+        .timeline-content h4 {
+            color: #8b6f6f;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(166, 124, 124, 0.1);
+            border: 1px solid #f5e8e8;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #d4a5a5 0%, #b88e8e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-label {
+            color: #8b6f6f;
+            font-size: 0.9em;
+        }
+
+        .automation-item {
+            background: linear-gradient(135deg, rgba(212, 165, 165, 0.08) 0%, rgba(245, 232, 232, 0.15) 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #d4a5a5;
+        }
+
+        .automation-item h4 {
+            color: #8b6f6f;
+            margin-bottom: 8px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        .automation-item p {
+            color: #6b5555;
+            font-size: 0.95em;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #d4a5a5 0%, #b88e8e 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(166, 124, 124, 0.3);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(166, 124, 124, 0.4);
+        }
+
+        .feature-highlight {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid #f5e8e8;
+            box-shadow: 0 5px 20px rgba(166, 124, 124, 0.08);
+        }
+
+        .feature-highlight h2 {
+            color: #8b6f6f;
+            margin-bottom: 25px;
+            font-size: 2em;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .integration-card {
+            background: linear-gradient(135deg, #fef9f7 0%, #fdf3f0 100%);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #f5e8e8;
+        }
+
+        .integration-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(166, 124, 124, 0.15);
+            border-color: #e8d4d4;
+        }
+
+        .integration-card .emoji {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .team-member {
+            display: inline-block;
+            background: linear-gradient(135deg, #fef5f1 0%, #f9e6e6 100%);
+            color: #8b6f6f;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 3px;
+            border: 1px solid #f5e8e8;
+        }
+
+        .interactive-note {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+            border-left: 4px solid #d4a5a5;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .interactive-note strong {
+            color: #b88e8e;
+        }
+
+        .legacare-banner {
+            background: linear-gradient(135deg, #d4a5a5 0%, #b88e8e 100%);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(166, 124, 124, 0.3);
+        }
+
+        .legacare-banner h2 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .legacare-banner p {
+            font-size: 0.95em;
+            opacity: 0.95;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>✨ Legacare Operations Hub</h1>
-      <p>Elegant Systems for <span class="brand-accent">Scaling with Confidence</span></p>
-    </header>
+    <div class="container">
+        <header>
+            <h1>✨ Legacare Operations Hub</h1>
+            <p>Elegant Systems for <span class="brand-accent">Scaling with Confidence</span></p>
+        </header>
 
-    <div class="legacare-banner">
-      <h2>Built for Beauty That Scales</h2>
-      <p>A sophisticated ClickUp system designed specifically for your growing brand</p>
+        <div class="legacare-banner">
+            <h2>Built for Beauty That Scales</h2>
+            <p>A sophisticated ClickUp system designed specifically for your growing brand</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="showTab('overview')">📊 Overview</button>
+            <button class="tab-btn" onclick="showTab('departments')">🏢 Team Structure</button>
+            <button class="tab-btn" onclick="showTab('automation')">⚡ Smart Automation</button>
+            <button class="tab-btn" onclick="showTab('workflows')">🔄 Your Workflows</button>
+            <button class="tab-btn" onclick="showTab('dashboards')">📈 Dashboards</button>
+            <button class="tab-btn" onclick="showTab('setup')">🎯 Implementation</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="content-section active">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Departments to Orchestrate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Team Members</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Smart Automations</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Custom Dashboards</div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon icon-rose">👑</div>
+                        <div>
+                            <h3>Your Leadership Role</h3>
+                        </div>
+                    </div>
+                    <p>As Operations Manager & Head of Performance for Legacare, you're the elegant conductor orchestrating all departments - from creative excellence to customer delight.</p>
+                    <div class="interactive-note">
+                        <strong>Legacare Philosophy:</strong> Just like our foundation adapts to every woman, your operations should adapt seamlessly to your team's needs.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon icon-peach">🎯</div>
+                        <div>
+                            <h3>Daily Command Center</h3>
+                        </div>
+                    </div>
+                    <ul class="task-list">
+                        <li><span class="priority-badge priority-high">Critical</span> Customer experience issues</li>
+                        <li><span class="priority-badge priority-high">Critical</span> Team blockers & support</li>
+                        <li><span class="priority-badge priority-medium">High</span> Campaign performance review</li>
+                        <li><span class="priority-badge priority-medium">High</span> Hiring pipeline updates</li>
+                        <li><span class="priority-badge priority-low">Standard</span> Process refinements</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon icon-lavender">📊</div>
+                        <div>
+                            <h3>Key Metrics for Success</h3>
+                        </div>
+                    </div>
+                    <ul class="task-list">
+                        <li>💰 ROAS by channel (Meta, Google, Email)</li>
+                        <li>⭐ Customer satisfaction (matching our 94% benchmark)</li>
+                        <li>📦 Order fulfillment excellence</li>
+                        <li>📈 Revenue vs. projections</li>
+                        <li>👥 Team capacity & wellbeing</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon icon-sage">🌸</div>
+                        <div>
+                            <h3>Strategic Priorities</h3>
+                        </div>
+                    </div>
+                    <p><strong>Q4 Scaling Initiative</strong></p>
+                    <ul class="task-list">
+                        <li>Recruit exceptional Brand Specialist</li>
+                        <li>Holiday campaign preparation</li>
+                        <li>Streamline creative workflows</li>
+                        <li>Scale paid media intelligently</li>
+                        <li>Elevate fulfillment experience</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Departments Tab -->
+        <div id="departments" class="content-section">
+            <div class="feature-highlight">
+                <h2>🏢 Your Team Structure</h2>
+                <p style="color: #8b6f6f; margin-bottom: 30px;">Every department has a dedicated ClickUp space with elegant workflows designed for the Legacare standard of excellence.</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon icon-rose">🎨</div>
+                        <div>
+                            <h3>Creative & Content</h3>
+                        </div>
+                    </div>
+                    <p><strong>Your Creative Excellence Team:</strong></p>
+                    <div>
+                        <span class="team-member">Wayra (Growth Strategist)</span>
+                        <span class="team-member">Sajid (Creative)</span>
+                        <span class="team-member">Vic (Creative)</span>
+                        <span class="team-member">Alex (Video Editor)</span>
+                        <span class="team-member">Will (Video Editor)</span>
+                        <span class="team-member">Nick (Video Editor)</span>
+                    </div>
+                    <ul class="task-list">
+                        <li>📁 Campaign Pipeline Management</li>
+                        <li>🎬 Video Production Queue</li>
+                        <li>📸 Brand Asset Library</li>
+                        <li>✅ Elegant Approval Workflows</li>
+                        <li>📅 Content Calendar System</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon icon-peach">💰</div>
+                        <div>
+                            <h3>Growth & Paid Media</h3>
+                        </div>
+                    </div>
+                    <p><strong>Revenue Generation Team:</strong></p>
+                    <div>
+                        <span class="team-member">Guy (Google Ads)</span>
+                        <span class="team-member">Bipin (Email Marketing)</span>
+                        <span class="team-member">RVE (Performance)</span>
+                        <span class="team-member">Kacper (PPU)</span>
+                    </div>
+                    <ul class="task-list">
+                        <li>🎯 Campaign Performance Tracking</li>
+                        <li>🧪 Strategic A/B Testing</li>
+                        <li>💸 Budget Optimization Dashboard</li>
+                        <li>📊 ROAS Monitoring & Scaling</li>
+                        <li>📧 Email Flow Perfection</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon icon-lavender">🔄</div>
+                        <div>
+                            <h3>Conversion & CRO</h3>
+                        </div>
+                    </div>
+                    <p><strong>Optimization Experts:</strong></p>
+                    <div>
+                        <span class="team-member">Kacper (CRO Lead)</span>
+                        <span class="team-member">Rowan (CRO Specialist)</span>
+                    </div>
+                    <ul class="task-list">
+                        <li>🧪 Strategic A/B Testing</li>
+                        <li>🛒 Checkout Experience Optimization</li>
+                        <li>📱 Mobile Experience Enhancement</li>
+                        <li>🎯 Landing Page Refinement</li>
+                        <li>📊 Conversion Analytics Deep Dive</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon icon-sage">📦</div>
+                        <div>
+                            <h3>Logistics & Fulfillment</h3>
+                        </div>
+                    </div>
+                    <p><strong>Operations Excellence Team:</strong></p>
+                    <div>
+                        <span class="team-member">Jason (Private Agent)</span>
+                        <span class="team-member">Steve (Private Agent)</span>
+                    </div>
+                    <ul class="task-list">
+                        <li>📦 Flawless Order Processing</li>
+                        <li>📊 Inventory Intelligence</li>
+                        <li>🚚 Premium Shipping Coordination</li>
+                        <li>🏭 Vendor Partnership Management</li>
+                        <li>⚠️ Proactive Issue Resolution</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon icon-blush">💬</div>
+                        <div>
+                            <h3>Customer Service</h3>
+                        </div>
+                    </div>
+                    <p><strong>Customer Delight Team:</strong></p>
+                    <div>
+                        <span class="team-member">Krizer (CS Lead)</span>
+                    </div>
+                    <ul class="task-list">
+                        <li>🎫 Priority Queue Management</li>
+                        <li>⏱️ Response Excellence Tracking</li>
+                        <li>⭐ CSAT Monitoring (target: 94%+)</li>
+                        <li>📝 Response Template Library</li>
+                        <li>💡 Customer Insights Analysis</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon icon-cream">📱</div>
+                        <div>
+                            <h3>Social Media & Community</h3>
+                        </div>
+                    </div>
+                    <p><strong>Brand Voice Team:</strong></p>
+                    <div>
+                        <span class="team-member">Gia (Social Manager)</span>
+                        <span class="team-member">Taya (Social Manager)</span>
+                    </div>
+                    <ul class="task-list">
+                        <li>📅 Content Scheduling System</li>
+                        <li>📈 Engagement & Growth Tracking</li>
+                        <li>🎥 TikTok Shop Excellence</li>
+                        <li>🤝 Influencer Collaboration</li>
+                        <li>🎁 UGC Curation & Amplification</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Automation Tab -->
+        <div id="automation" class="content-section">
+            <div class="feature-highlight">
+                <h2>⚡ Intelligent Automation</h2>
+                <p style="color: #8b6f6f; margin-bottom: 30px;">Set up once, save hours every week. Elegant systems that work quietly in the background, just like Legacare's formulas work beneath the surface.</p>
+
+                <div class="automation-item">
+                    <h4>🚨 Proactive Task Management</h4>
+                    <p><strong>Trigger:</strong> Task becomes overdue<br>
+                    <strong>Action:</strong> Notify you + task owner + update status to "Needs Attention"<br>
+                    <strong>Benefit:</strong> Nothing falls through the cracks, maintaining Legacare's standard of excellence</p>
+                </div>
+
+                <div class="automation-item">
+                    <h4>🎨 Streamlined Creative Approval</h4>
+                    <p><strong>Trigger:</strong> Asset marked "Ready for Review"<br>
+                    <strong>Action:</strong> Auto-assign to Growth Strategist → Create review task → Set 24-hour deadline<br>
+                    <strong>Benefit:</strong> Faster creative turnaround = More campaigns = More growth</p>
+                </div>
+
+                <div class="automation-item">
+                    <h4>📊 Performance Review Automation</h4>
+                    <p><strong>Trigger:</strong> Campaign launches<br>
+                    <strong>Action:</strong> Schedule performance review 7 days later + assign to you + add to weekly dashboard<br>
+                    <strong>Benefit:</strong> Consistent optimization cycles drive continuous improvement</p>
+                </div>
+
+                <div class="automation-item">
+                    <h4>🎫 VIP Customer Escalation</h4>
+                    <p><strong>Trigger:</strong> High-priority customer ticket created<br>
+                    <strong>Action:</strong> Instant notification to you + Krizer + Add to priority dashboard + 2-hour SLA<br>
+                    <strong>Benefit:</strong> Protect the exceptional customer experience Legacare is known for</p>
+                </div>
+
+                <div class="automation-item">
+                    <h4>💰 Budget Intelligence System</h4>
+                    <p><strong>Trigger:</strong> Campaign spend reaches 80% of budget<br>
+                    <strong>Action:</strong> Alert media buyer + you + Flag in budget dashboard<br>
+                    <strong>Benefit:</strong> Smart spending prevents overspend while maximizing ROAS</p>
+                </div>
+
+                <div class="automation-item">
+                    <h4>📦 Inventory Foresight</h4>
+                    <p><strong>Trigger:</strong> Product inventory below reorder threshold<br>
+                    <strong>Action:</strong> Create reorder task + assign to Jason/Steve + notify you<br>
+                    <strong>Benefit:</strong> Never disappoint customers with stockouts</p>
+                </div>
+
+                <div class="automation-item">
+                    <h4>📅 Weekly Sync Preparation</h4>
+                    <p><strong>Trigger:</strong> Every Friday at 4 PM<br>
+                    <strong>Action:</strong> Compile completed tasks + Generate team report + Create meeting agenda + Notify leads<br>
+                    <strong>Benefit:</strong> Data-driven team meetings that celebrate wins and solve challenges</p>
+                </div>
+
+                <div class="automation-item">
+                    <h4>🎯 Seamless Onboarding</h4>
+                    <p><strong>Trigger:</strong> New team member added to workspace<br>
+                    <strong>Action:</strong> Create personalized onboarding checklist + Schedule 1-on-1s + Add to team channels<br>
+                    <strong>Benefit:</strong> Every new hire experiences the Legacare standard from day one</p>
+                </div>
+
+                <div class="automation-item">
+                    <h4>🔄 Blocker Resolution Protocol</h4>
+                    <p><strong>Trigger:</strong> Task marked as "Blocked"<br>
+                    <strong>Action:</strong> Immediate notification to you + manager + Add to resolution queue<br>
+                    <strong>Benefit:</strong> Keep momentum going, unblock teams within hours not days</p>
+                </div>
+
+                <div class="automation-item">
+                    <h4>📈 Monthly Strategic Review</h4>
+                    <p><strong>Trigger:</strong> 1st of each month<br>
+                    <strong>Action:</strong> Generate department reports + Compile KPIs + Schedule review meetings<br>
+                    <strong>Benefit:</strong> Strategic monthly reviews drive long-term growth</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workflows Tab -->
+        <div id="workflows" class="content-section">
+            <div class="feature-highlight">
+                <h2>🔄 Your Elegant Workflows</h2>
+                <p style="color: #8b6f6f;">Just like Legacare simplifies beauty routines, these workflows simplify your operations.</p>
+            </div>
+
+            <div class="workflow-timeline">
+                <h3 style="color: #8b6f6f; margin-bottom: 30px; font-family: 'Playfair Display', serif;">☀️ Daily Routine (30 minutes)</h3>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot">1</div>
+                    <div class="timeline-content">
+                        <h4>Morning Dashboard Review (10 min)</h4>
+                        <p>Open your "Operations Command Center" dashboard:</p>
+                        <ul class="task-list">
+                            <li>Review overnight customer tickets - any VIP issues?</li>
+                            <li>Check fulfillment status - orders processed smoothly?</li>
+                            <li>Scan team task statuses - any blockers or urgent needs?</li>
+                            <li>Review yesterday's performance - ROAS, conversions, customer satisfaction</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">2</div>
+                    <div class="timeline-content">
+                        <h4>Priority Actions (15 min)</h4>
+                        <p>Focus on critical and high-priority items:</p>
+                        <ul class="task-list">
+                            <li>Unblock any team members (they're counting on you)</li>
+                            <li>Make urgent decisions that move projects forward</li>
+                            <li>Quick touchpoints with team leads if needed</li>
+                            <li>Update hiring pipeline with any new developments</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">3</div>
+                    <div class="timeline-content">
+                        <h4>Team Alignment Update (5 min)</h4>
+                        <p>Post in team Slack or ClickUp:</p>
+                        <ul class="task-list">
+                            <li>Today's key priorities across departments</li>
+                            <li>Critical updates everyone should know</li>
+                            <li>Celebrate yesterday's wins (big and small)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workflow-timeline">
+                <h3 style="color: #8b6f6f; margin-bottom: 30px; font-family: 'Playfair Display', serif;">📅 Weekly Leadership Rhythm</h3>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot">Mon</div>
+                    <div class="timeline-content">
+                        <h4>Monday: Strategic Week Planning (1 hour)</h4>
+                        <ul class="task-list">
+                            <li><strong>9:00 AM:</strong> Review last week's performance across all departments</li>
+                            <li><strong>9:30 AM:</strong> Set top 3 priorities for each team this week</li>
+                            <li><strong>10:00 AM:</strong> Team Leads Sync - align on priorities, clear blockers</li>
+                            <li><strong>Action:</strong> Update ClickUp with week's strategic focus</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">Tue</div>
+                    <div class="timeline-content">
+                        <h4>Tuesday: Creative & Campaign Excellence (45 min)</h4>
+                        <ul class="task-list">
+                            <li>Review creative pipeline with Wayra - what's launching?</li>
+                            <li>Check campaign performance with media buyers</li>
+                            <li>Identify winning assets to scale aggressively</li>
+                            <li>Address underperforming campaigns - optimize or pause</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">Wed</div>
+                    <div class="timeline-content">
+                        <h4>Wednesday: Operations & Fulfillment (45 min)</h4>
+                        <ul class="task-list">
+                            <li>Review fulfillment metrics with Jason/Steve - on-time delivery?</li>
+                            <li>Check inventory levels and upcoming reorder needs</li>
+                            <li>Address any shipping, vendor, or quality issues</li>
+                            <li>Identify process improvement opportunities</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">Thu</div>
+                    <div class="timeline-content">
+                        <h4>Thursday: Customer & Community Focus (45 min)</h4>
+                        <ul class="task-list">
+                            <li>Review CS metrics with Krizer - maintaining 94%+ CSAT?</li>
+                            <li>Check social media performance with Gia/Taya</li>
+                            <li>Analyze customer feedback trends and insights</li>
+                            <li>Identify product or service improvements from feedback</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">Fri</div>
+                    <div class="timeline-content">
+                        <h4>Friday: Week Wrap & Forward Planning (1 hour)</h4>
+                        <ul class="task-list">
+                            <li><strong>3:00 PM:</strong> Compile weekly performance dashboard</li>
+                            <li><strong>3:30 PM:</strong> Celebrate team wins and key learnings</li>
+                            <li><strong>4:00 PM:</strong> Next week prep - hiring updates, budget reviews, priorities</li>
+                            <li><strong>4:30 PM:</strong> Send elegant weekly update to leadership</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboards Tab -->
+        <div id="dashboards" class="content-section">
+            <div class="feature-highlight">
+                <h2>📈 Your 5 Power Dashboards</h2>
+                <p style="color: #8b6f6f; margin-bottom: 30px;">Instant visibility into everything that matters. Set up once, gain clarity daily.</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon icon-rose">🎯</div>
+                        <div>
+                            <h3>1. Operations Command Center</h3>
+                        </div>
+                    </div>
+                    <p><strong>Your daily starting point - the pulse of Legacare operations</strong></p>
+                    <ul class="task-list">
+                        <li><strong>Essential Widgets:</strong></li>
+                        <li>📊 Task status across all departments</li>
+                        <li>🚨 Overdue items requiring immediate attention</li>
+                        <li>🔥 Priority tasks needing your review</li>
+                        <li>👥 Team capacity and workload balance</li>
+                        <li>⚠️ Blocked tasks requiring resolution</li>
+                        <li>📅 This week's critical deadlines</li>
+                    </ul>
+                    <button class="action-btn" onclick="alert('Setup in ClickUp:\n\n1. Click Dashboards in sidebar\n2. New Dashboard\n3. Name: Operations Command Center\n4. Add widgets:\n   - Task Status\n   - Workload View\n   - Priority List\n   - Blocked Tasks\n5. Filter: All Spaces\n6. Pin to sidebar')">Setup Guide</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon icon-peach">💰</div>
+                        <div>
+                            <h3>2. Performance & Revenue Dashboard</h3>
+                        </div>
+                    </div>
+                    <p><strong>Track what drives Legacare's growth</strong></p>
+                    <ul class="task-list">
+                        <li><strong>Key Metrics:</strong></li>
+                        <li>💵 Budget vs Actual by channel</li>
+                        <li>📈 ROAS trending (Google, Meta, Email)</li>
+                        <li>🎯 Conversion rate optimization tracking</li>
+                        <li>📊 Revenue by campaign type</li>
+                        <li>🔄 Active vs completed campaigns</li>
+                        <li>🧪 A/B tests in progress</li>
+                    </ul>
+                    <p style="margin-top: 15px; color: #d4a5a5;"><strong>Integrations:</strong> Google Analytics, Shopify, Meta Ads, Google Ads</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon icon-lavender">👥</div>
+                        <div>
+                            <h3>3. Hiring & Talent Pipeline</h3>
+                        </div>
+                    </div>
+                    <p><strong>Build your exceptional team systematically</strong></p>
+                    <ul class="task-list">
+                        <li><strong>Pipeline Visibility:</strong></li>
+                        <li>📋 Open positions and job descriptions</li>
+                        <li>👤 Candidates by stage (sourcing → offer)</li>
+                        <li>📅 Upcoming interview schedule</li>
+                        <li>⏱️ Time-to-hire metrics</li>
+                        <li>✅ Active onboarding progress</li>
+                        <li>🎯 Hiring goals vs actual progress</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon icon-sage">⚡</div>
+                        <div>
+                            <h3>4. Team Health & Capacity</h3>
+                        </div>
+                    </div>
+                    <p><strong>Maintain a thriving, sustainable team culture</strong></p>
+                    <ul class="task-list">
+                        <li><strong>Wellbeing Indicators:</strong></li>
+                        <li>📊 Workload distribution by team member</li>
+                        <li>🔥 Overload risk early warning system</li>
+                        <li>✅ Task completion velocity tracking</li>
+                        <li>📅 1-on-1 meeting schedule tracker</li>
+                        <li>🎯 Individual goals and progress</li>
+                        <li>💬 Team sentiment and feedback</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="icon icon-blush">🎨</div>
+                        <div>
+                            <h3>5. Creative Production Flow</h3>
+                        </div>
+                    </div>
+                    <p><strong>Never let creative bottlenecks slow your growth</strong></p>
+                    <ul class="task-list">
+                        <li><strong>Production Pipeline:</strong></li>
+                        <li>🎬 Assets currently in production</li>
+                        <li>✅ Items awaiting approval</li>
+                        <li>📊 Creative performance metrics (CTR, engagement)</li>
+                        <li>⏱️ Average production time tracking</li>
+                        <li>🎯 Creative request backlog</li>
+                        <li>👥 Designer capacity and availability</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="feature-highlight" style="margin-top: 40px;">
+                <h3 style="font-family: 'Playfair Display', serif; color: #8b6f6f;">🔗 Essential Integrations</h3>
+                <div class="integration-grid">
+                    <div class="integration-card">
+                        <div class="emoji">📊</div>
+                        <strong>Google Analytics</strong>
+                        <p style="font-size: 0.85em; color: #8b6f6f; margin-top: 8px;">Traffic & conversion data</p>
+                    </div>
+                    <div class="integration-card">
+                        <div class="emoji">🛒</div>
+                        <strong>Shopify</strong>
+                        <p style="font-size: 0.85em; color: #8b6f6f; margin-top: 8px;">Orders, inventory, revenue</p>
+                    </div>
+                    <div class="integration-card">
+                        <div class="emoji">💬</div>
+                        <strong>Slack</strong>
+                        <p style="font-size: 0.85em; color: #8b6f6f; margin-top: 8px;">Real-time notifications</p>
+                    </div>
+                    <div class="integration-card">
+                        <div class="emoji">📧</div>
+                        <strong>Gmail</strong>
+                        <p style="font-size: 0.85em; color: #8b6f6f; margin-top: 8px;">Email to task conversion</p>
+                    </div>
+                    <div class="integration-card">
+                        <div class="emoji">📅</div>
+                        <strong>Google Calendar</strong>
+                        <p style="font-size: 0.85em; color: #8b6f6f; margin-top: 8px;">Meeting sync</p>
+                    </div>
+                    <div class="integration-card">
+                        <div class="emoji">💰</div>
+                        <strong>Meta & Google Ads</strong>
+                        <p style="font-size: 0.85em; color: #8b6f6f; margin-top: 8px;">Campaign performance</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Setup Tab -->
+        <div id="setup" class="content-section">
+            <div class="feature-highlight">
+                <h2>🎯 7-Day Implementation Plan</h2>
+                <p style="color: #8b6f6f; margin-bottom: 30px;">Launch your elegant operations system with confidence. Follow this proven roadmap.</p>
+            </div>
+
+            <div class="workflow-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot">Day 1</div>
+                    <div class="timeline-content">
+                        <h4>Foundation & Structure (2 hours)</h4>
+                        <ul class="task-list">
+                            <li><strong>Create Core Spaces:</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px; list-style: none;">
+                                    <li>• Operations HQ (your command center)</li>
+                                    <li>• Creative & Content Production</li>
+                                    <li>• Growth & Paid Media</li>
+                                    <li>• Conversion & CRO</li>
+                                    <li>• Logistics & Fulfillment</li>
+                                    <li>• Customer Service Excellence</li>
+                                    <li>• Social Media & Community</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add Team Members:</strong> Invite with appropriate permissions</li>
+                            <li><strong>First Dashboard:</strong> Create Operations Command Center</li>
+                        </ul>
+                        <button class="action-btn" onclick="alert('ClickUp Setup Steps:\n\n1. Sidebar > Spaces\n2. + New Space\n3. Name your space\n4. Settings > Members > Invite team\n5. Set permissions appropriately\n6. Dashboards > New Dashboard\n7. Add Task Status widget')">Detailed Steps</button>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">Day 2</div>
+                    <div class="timeline-content">
+                        <h4>Build Your Space Architecture (3 hours)</h4>
+                        <ul class="task-list">
+                            <li><strong>Operations HQ Structure:</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px; list-style: none;">
+                                    <li>• Folder: Team Performance & KPIs</li>
+                                    <li>• Folder: Hiring & Talent Development</li>
+                                    <li>• Folder: Cross-Team Projects</li>
+                                    <li>• Folder: Leadership & Meetings</li>
+                                </ul>
+                            </li>
+                            <li><strong>Create Lists:</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px; list-style: none;">
+                                    <li>• Weekly Team Metrics</li>
+                                    <li>• Open Positions Pipeline</li>
+                                    <li>• Q4 Scaling Initiative</li>
+                                    <li>• Weekly Leadership Sync</li>
+                                </ul>
+                            </li>
+                            <li><strong>Custom Fields:</strong> Priority, Department, Budget, Owner, Status, ROAS</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">Day 3</div>
+                    <div class="timeline-content">
+                        <h4>Department Space Configuration (3 hours)</h4>
+                        <ul class="task-list">
+                            <li><strong>Creative Space:</strong> Campaign Pipeline, Video Production, Content Calendar</li>
+                            <li><strong>Growth Space:</strong> Google Ads, Email Marketing, Meta Campaigns, Performance Tracking</li>
+                            <li><strong>Logistics Space:</strong> Daily Operations, Inventory Management, Vendor Relations</li>
+                            <li><strong>Pro Tip:</strong> Use folder templates to maintain consistency across spaces</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">Day 4</div>
+                    <div class="timeline-content">
+                        <h4>Populate with Current Work (2 hours)</h4>
+                        <ul class="task-list">
+                            <li>Import all active projects and campaigns</li>
+                            <li>Add current hiring pipeline and candidates</li>
+                            <li>Transfer pending customer service issues</li>
+                            <li>Document ongoing vendor relationships</li>
+                            <li>Assign clear ownership to every item</li>
+                            <li><strong>Goal:</strong> Complete visibility of current state</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">Day 5</div>
+                    <div class="timeline-content">
+                        <h4>Intelligent Automation Setup (2 hours)</h4>
+                        <ul class="task-list">
+                            <li>Configure 5 essential automations:
+                                <ul style="margin-left: 20px; margin-top: 10px; list-style: none;">
+                                    <li>1. Overdue task escalation</li>
+                                    <li>2. Creative approval workflow</li>
+                                    <li>3. VIP customer ticket routing</li>
+                                    <li>4. Budget threshold alerts</li>
+                                    <li>5. Weekly report generation</li>
+                                </ul>
+                            </li>
+                            <li>Test each automation thoroughly</li>
+                        </ul>
+                        <button class="action-btn" onclick="alert('Create Automation:\n\n1. Space Settings > Automations\n2. + New Automation\n3. Choose trigger (When...)\n4. Choose action (Then...)\n5. Test with sample task\n6. Activate\n\nExample:\nWhen: Status = Overdue\nThen: Notify assignee + you')">Automation Guide</button>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">Day 6</div>
+                    <div class="timeline-content">
+                        <h4>Dashboard Creation & Integration (2 hours)</h4>
+                        <ul class="task-list">
+                            <li>Build all 5 power dashboards with appropriate widgets</li>
+                            <li>Connect Shopify for order and inventory data</li>
+                            <li>Integrate Google Analytics for traffic insights</li>
+                            <li>Link ad platforms for performance tracking</li>
+                            <li>Pin your Command Center dashboard to sidebar</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot">Day 7</div>
+                    <div class="timeline-content">
+                        <h4>Team Training & Launch (2 hours)</h4>
+                        <ul class="task-list">
+                            <li><strong>Morning:</strong> Record 15-minute walkthrough video</li>
+                            <li><strong>10 AM:</strong> Live team training session
+                                <ul style="margin-left: 20px; margin-top: 10px; list-style: none;">
+                                    <li>• Tour of each department space</li>
+                                    <li>• How to update tasks and status</li>
+                                    <li>• Demonstration of key workflows</li>
+                                    <li>• Open Q&A session</li>
+                                </ul>
+                            </li>
+                            <li><strong>Afternoon:</strong> Individual setup help for team leads</li>
+                            <li><strong>End of Day:</strong> Celebrate launch with first team standup!</li>
+                        </ul>
+                        <div class="interactive-note">
+                            <strong>🌸 Congratulations!</strong> Your Legacare Operations Hub is live. Tomorrow, start your elegant 30-minute daily routine.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-highlight" style="margin-top: 40px;">
+                <h3 style="font-family: 'Playfair Display', serif; color: #8b6f6f;">📋 Post-Launch Excellence</h3>
+                <div class="automation-item">
+                    <h4>Week 2: Optimization & Refinement</h4>
+                    <ul class="task-list">
+                        <li>Gather team feedback - what's intuitive? What needs clarity?</li>
+                        <li>Adjust folder structures based on actual workflow patterns</li>
+                        <li>Add 3 more automations addressing discovered pain points</li>
+                        <li>Create task templates for recurring work (weekly reports, campaigns)</li>
+                    </ul>
+                </div>
+
+                <div class="automation-item">
+                    <h4>Weeks 3-4: Expansion & Enhancement</h4>
+                    <ul class="task-list">
+                        <li>Implement advanced custom fields (ROI tracking, performance scores, customer impact)</li>
+                        <li>Enable time tracking for accurate capacity planning</li>
+                        <li>Build department-specific dashboards for team leads</li>
+                        <li>Complete all tool integrations (Slack, Gmail, Calendar)</li>
+                    </ul>
+                </div>
+
+                <div class="automation-item">
+                    <h4>Month 2: Mastery & Strategic Growth</h4>
+                    <ul class="task-list">
+                        <li>Develop custom reporting for stakeholder updates</li>
+                        <li>Implement goals and OKR tracking system</li>
+                        <li>Create sprint planning workflows for product launches</li>
+                        <li>Build advanced workload balancing and resource allocation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 40px; background: linear-gradient(135deg, #d4a5a5 0%, #b88e8e 100%); color: white; border: none;">
+                <h3 style="color: white; margin-bottom: 20px; font-family: 'Playfair Display', serif;">✨ Ready to Transform Your Operations?</h3>
+                <p style="color: rgba(255,255,255,0.95); margin-bottom: 20px; line-height: 1.6;">You now have everything needed to build a world-class operations system worthy of the Legacare brand. Remember these principles:</p>
+                <ul class="task-list" style="color: white;">
+                    <li style="color: white; border-color: rgba(255,255,255,0.3);">Start elegantly simple, add sophistication as needed</li>
+                    <li style="color: white; border-color: rgba(255,255,255,0.3);">Secure team buy-in early through involvement</li>
+                    <li style="color: white; border-color: rgba(255,255,255,0.3);">Automate the repetitive, focus on the strategic</li>
+                    <li style="color: white; border-color: rgba(255,255,255,0.3);">Check your dashboards daily for clarity and control</li>
+                    <li style="color: white; border-color: rgba(255,255,255,0.3);">Iterate continuously based on team feedback</li>
+                </ul>
+                <p style="color: rgba(255,255,255,0.95); margin-top: 20px; font-size: 1.1em;"><strong>Your mission:</strong> Build systems that scale effortlessly, freeing you to focus on strategy, innovation, and growing Legacare's impact on women's confidence worldwide.</p>
+            </div>
+        </div>
     </div>
 
-    <!-- No-JS Tabs -->
-    <section class="tabs">
-      <!-- Radios (no JS needed). The first one is default-checked. -->
-      <input type="radio" name="tabs" id="tab-overview" checked>
-      <input type="radio" name="tabs" id="tab-departments">
-      <input type="radio" name="tabs" id="tab-automation">
-      <input type="radio" name="tabs" id="tab-workflows">
-      <input type="radio" name="tabs" id="tab-dashboards">
-      <input type="radio" name="tabs" id="tab-setup">
-
-      <!-- Labels that act like buttons -->
-      <div class="tab-labels">
-        <label for="tab-overview">📊 Overview</label>
-        <label for="tab-departments">🏢 Team Structure</label>
-        <label for="tab-automation">⚡ Smart Automation</label>
-        <label for="tab-workflows">🔄 Your Workflows</label>
-        <label for="tab-dashboards">📈 Dashboards</label>
-        <label for="tab-setup">🎯 Implementation</label>
-      </div>
-
-      <!-- Panels -->
-      <div class="tab-panels">
-
-        <div class="tab-panel" data-tab="overview">
-          <!-- Example: replicate your Overview content here -->
-          <div class="stats-container">
-            <div class="stat-card">
-              <div class="stat-number">7</div>
-              <div class="stat-label">Departments to Orchestrate</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-number">15+</div>
-              <div class="stat-label">Team Members</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-number">3</div>
-              <div class="stat-label">Automation Layers</div>
-            </div>
-          </div>
-
-          <div class="dashboard-grid">
-            <div class="card">
-              <h3>Process Library</h3>
-              <p>Centralized SOPs, templates, and governance.</p>
-              <button class="action-btn" type="button">Open Library</button>
-            </div>
-            <div class="card">
-              <h3>Weekly Rituals</h3>
-              <p>Standups, reviews, retros that keep teams aligned.</p>
-              <button class="action-btn" type="button">View Rituals</button>
-            </div>
-            <div class="card">
-              <h3>Onboarding Kit</h3>
-              <p>Everything a new teammate needs in week one.</p>
-              <button class="action-btn" type="button">See Kit</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-panel" data-tab="departments">
-          <!-- Paste your Team Structure content here -->
-          <div class="card">
-            <h3>Team Structure</h3>
-            <p>Replace this block with your existing “departments” section.</p>
-          </div>
-        </div>
-
-        <div class="tab-panel" data-tab="automation">
-          <!-- Paste your Smart Automation content here -->
-          <div class="card">
-            <h3>Smart Automation</h3>
-            <p>Replace this block with your existing “automation” section.</p>
-          </div>
-        </div>
-
-        <div class="tab-panel" data-tab="workflows">
-          <!-- Paste your Workflows content here -->
-          <div class="card">
-            <h3>Your Workflows</h3>
-            <p>Replace this block with your existing “workflows” section.</p>
-          </div>
-        </div>
-
-        <div class="tab-panel" data-tab="dashboards">
-          <!-- Paste your Dashboards content here -->
-          <div class="card">
-            <h3>Dashboards</h3>
-            <p>Replace this block with your existing “dashboards” section.</p>
-          </div>
-        </div>
-
-        <div class="tab-panel" data-tab="setup">
-          <!-- Paste your Implementation content here -->
-          <div class="card">
-            <h3>Implementation</h3>
-            <p>Replace this block with your existing “setup” section.</p>
-          </div>
-        </div>
-
-      </div>
-    </section>
-  </div>
+    <script>
+        function showTab(tabName) {
+            // Hide all content sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Smooth scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>
